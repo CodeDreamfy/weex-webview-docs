@@ -54,7 +54,7 @@ window.addEventListener('message', function(event){
 })
 ```
 
-####WebView发送消息
+#### WebView发送消息
 
 ```javascript
 window.parent.postMessage(command, ${weex_domain}); // command: Object; webview 发送消息
@@ -64,7 +64,7 @@ window.parent.postMessage(command, ${weex_domain}); // command: Object; webview 
 
 
 
-##数据通信
+## 数据通信
 
 #### 初始化数据
 

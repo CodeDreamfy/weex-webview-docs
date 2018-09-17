@@ -7,13 +7,13 @@
 
 ### MQTT 与 WebView 通信流程
 
-![MQTT与WebView通信方式](/Users/zhangyong/Documents/work/weex-webview-docs/img/MQTT与Webview通信方式.png)
+![MQTT与WebView通信方式](https://github.com/CodeDreamfy/weex-webview-docs/blob/master/img/MQTT%E4%B8%8EWebview%E9%80%9A%E4%BF%A1%E6%96%B9%E5%BC%8F.png)
 
 
 
 ### webView初始化目前可提供的数据
 
-```json
+```javascript
 {
     data: {
         device_sn: String, // 设备sn
@@ -48,7 +48,7 @@
 
 #### webview接收消息
 
-```js
+```javascript
 window.addEventListener('message', function(event){
     console.log(event.data) // type: Obejct,  data内部为传递的数据
 })
@@ -56,7 +56,7 @@ window.addEventListener('message', function(event){
 
 ####WebView发送消息
 
-```js
+```javascript
 window.parent.postMessage(command, ${weex_domain}); // command: Object; webview 发送消息
 ```
 
@@ -70,7 +70,7 @@ window.parent.postMessage(command, ${weex_domain}); // command: Object; webview 
 
 `type: 'initParam'` : **weex->webview**发送初始化需要的信息
 
-```Json
+```javascript
 // webview主动发送初始化信息
 {
     type: 'initParam', 
@@ -107,7 +107,7 @@ window.parent.postMessage(command, ${weex_domain}); // command: Object; webview 
 
 **MQTT**连接成功或者失败，将在进入页面且有APP有网的情况下会主动进行mqtt连接，mqtt连接后可以看到
 
-```json
+```javascript
 {
     type: 'connectStatus',
     data: {
@@ -124,7 +124,7 @@ window.parent.postMessage(command, ${weex_domain}); // command: Object; webview 
 
 **webview**下发命令
 
-```json
+```javascript
 {
     type: 'command',
     data: {
@@ -144,7 +144,7 @@ window.parent.postMessage(command, ${weex_domain}); // command: Object; webview 
 
 用于**webview**接收命令下发的响应结果
 
-```json
+```javascript
 {
     type: 'command_resp',
     data: {
@@ -158,7 +158,7 @@ window.parent.postMessage(command, ${weex_domain}); // command: Object; webview 
 >
 > eg: 
 >
-> ```js
+> ```javascript
 > const uuidv1 = require('uuid/v1');
 > let uuid = uuidv1().split('-')[0]; // ⇨ '45745c60-7b1a-11e8-9c9c-2d42b21b1a3e'
 > ```
@@ -172,7 +172,7 @@ window.parent.postMessage(command, ${weex_domain}); // command: Object; webview 
 **MQTT**上报的传感器数据（目前是单点上报，即每次上传仅上报单个功能点）
 
 
-```json
+```javascript
 {
     type: 'status',
     data: {
@@ -190,7 +190,7 @@ window.parent.postMessage(command, ${weex_domain}); // command: Object; webview 
 
 服务器上报到**webview**,设备连上MQTT后将进行上报
 
-```json
+```javascript
 {
     type: 'first-status',
     data: {
@@ -208,7 +208,7 @@ window.parent.postMessage(command, ${weex_domain}); // command: Object; webview 
 
 服务器上报到**webview**,只有当设备状态改变时候才会上报
 
-```json
+```javascript
 {
     type: 'online',
     data: {
@@ -225,7 +225,7 @@ window.parent.postMessage(command, ${weex_domain}); // command: Object; webview 
 
 将调用weex自带modal，主要包括['toast','alert']，具体api可参考[WEEX-API](https://weex.incubator.apache.org/cn/references/modules/modal.html)
 
-```json
+```javascript
 {
     type: 'modal',
     data: {
@@ -242,7 +242,7 @@ window.parent.postMessage(command, ${weex_domain}); // command: Object; webview 
 
 ### Example
 
-```
+```javascript
 // web-view页面
 window.addEventListener('message', function(event){
     console.log(event.data) 

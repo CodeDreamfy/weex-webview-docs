@@ -40,31 +40,63 @@
 }
 ```
 
+## 必要步骤
 
-
-## *必要
+### 第一步
 
 页面加载完成后，需要监听`Message`事件，以便`weex`向webview发送消息
 
-#### webview接收消息
+**接收消息**
 
 ```javascript
 window.addEventListener('message', function(event){
     console.log(event.data) // type: Obejct,  data内部为传递的数据
+    switch(event.data.type) {
+      case "command_resp":
+        // todo:
+        break;
+      case "status":
+        // todo
+        break;
+      case "connection":
+        // todo:
+        break;
+      case 'first-status':
+        // todo:
+        break;
+      default:
+        // todo:
+    }
 })
 ```
 
-#### WebView发送消息
+### 第二步
+
+刚进入页面的时候请下发如下命令以通知`WEEX`传递页面需要的参数信息
+
+```javascript
+window.parent.postMessage({
+    type: 'initParams'
+}, ${weex_domain});
+```
+> 注意：这个过程可能是异步的，不会立即返回，因为部分参数是通过接口请求回来的
+
+### 第三步
+
+如果`WEEX`回复了消息，会在第一步已经监听到了事件中监听到，请做对应的处理。
+
+
+
+
+## 数据通信API格式
+
+#### 下发消息（默认下发命令）
 
 ```javascript
 window.parent.postMessage(command, ${weex_domain}); // command: Object; webview 发送消息
 ```
 
 > PostMessage API可参考[MDN-Window-PostMessage](https://developer.mozilla.org/zh-CN/docs/Web/API/Window/postMessage)
-
-
-
-## 数据通信
 
 #### 初始化数据
 
@@ -136,6 +168,15 @@ window.parent.postMessage(command, ${weex_domain}); // command: Object; webview 
 }
 ```
 
+> 下发的`task_id`请使用[uuid/v1](https://www.npmjs.com/package/uuid)版本的第一段
+>
+> eg: 
+>
+> ```javascript
+> const uuidv1 = require('uuid/v1');
+> let uuid = uuidv1().split('-')[0]; // ⇨ '45745c60-7b1a-11e8-9c9c-2d42b21b1a3e'
+> ```
+
 
 
 #### 命令下发响应
@@ -153,15 +194,6 @@ window.parent.postMessage(command, ${weex_domain}); // command: Object; webview 
     }
 }
 ```
-
-> 下发的`task_id`请使用[uuid/v1](https://www.npmjs.com/package/uuid)版本的第一段
->
-> eg: 
->
-> ```javascript
-> const uuidv1 = require('uuid/v1');
-> let uuid = uuidv1().split('-')[0]; // ⇨ '45745c60-7b1a-11e8-9c9c-2d42b21b1a3e'
-> ```
 
 
 
@@ -243,28 +275,59 @@ window.parent.postMessage(command, ${weex_domain}); // command: Object; webview 
 ### Example
 
 ```javascript
-// web-view页面
-window.addEventListener('message', function(event){
-    console.log(event.data) 
-    
-})
+
+// 本例使用的语法多使用es6的，建议在构建工具中运行，webpack、gulp、babel
+
+const uuidv1 = require('uuid/v1'); // 普通页面不支持require，请使用构建工具或者页面内引入
 
 // 监听weex发送的数据
-function filterProcess(msg) {
-    switch(msg.type) {
-        case 'initParam': 
-        	// todo... 
-        	break;
-        ...
+window.addEventListener('message', function(event){
+    const payload = event.data; // type: Obejct,  data内部为传递的数据
+    switch(payload.type) {
+      case "command_resp":
+        // todo:
+        break;
+      case "status":
+        // todo
+        break;
+      case "connection":
+        // todo:
+        break;
+      case 'first-status':
+        // todo:
+        break;
+      case "initParams":
+        // todo:
+        init(payload.data)
+        break;
+      default:
+        // todo:
     }
+})
+
+function init() {
+
 }
 
-// 下发数据
-window.parent.postMessage({
-    type: 'command',
-    data: {
-        // todo..
-    }
-}, weex.weex_domain)
+// 下发初始化消息获取参数
+window.addEventListener('DOMContentLoaded', function() {
+    window.parent.postMessage({
+        type: 'initParams'
+    }, '*');
+})
+
+
+// 下发数据方法
+function publish(command) {
+    window.parent.postMessage({
+        type: 'command',
+        data: {
+            task_id: uuidv1().split('-')[0], // 可使用uuid的库来生成
+            function: 232, // function index
+            type: 'Boolean', // 功能点类型
+            value: true, // 功能点值
+        }
+    }, '*')
+}
 ```
 

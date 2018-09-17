@@ -7,7 +7,7 @@
 
 ### MQTT 与 WebView 通信流程
 
-![MQTT与WebView通信方式](https://github.com/CodeDreamfy/weex-webview-docs/blob/master/img/MQTT%E4%B8%8EWebview%E9%80%9A%E4%BF%A1%E6%96%B9%E5%BC%8F.png)
+![MQTT与WebView通信方式](https://raw.githubusercontent.com/CodeDreamfy/weex-webview-docs/master/img/MQTT%E4%B8%8EWebview%E9%80%9A%E4%BF%A1%E6%96%B9%E5%BC%8F.png)
 
 
 

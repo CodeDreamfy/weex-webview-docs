@@ -1,6 +1,6 @@
 # weex-webview SDK协定
 
-> 注：该协议仅适用于中移动物联网-中移和物`weex-webview`模板开发
+> 注：该协议仅适用于中移动物联网-中移和物`weex-webview`模板开发，请勿进行复制等其他用途。
 
 | 时间                 | 修订者                  | 修订说明               |
 | -------------------- | ----------------------- | ---------------------- |
@@ -54,6 +54,12 @@
 window.addEventListener('message', function(event){
     console.log(event.data) // type: Obejct,  data内部为传递的数据
     switch(event.data.type) {
+      case "initParams":
+        // todo:
+        break;
+      case "connectStatus":
+        // todo
+        break;
       case "command_resp":
         // todo:
         break;
@@ -141,6 +147,8 @@ window.parent.postMessage(command, ${weex_domain}); // command: Object; webview 
     }
 }
 ```
+
+> 注意： 数值类型是有作区分的，与平台保持一致：INTEGER || FLOAT
 
 
 

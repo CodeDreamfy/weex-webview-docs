@@ -181,7 +181,7 @@ window.parent.postMessage(command, ${weex_domain}); // command: Object; webview 
     data: {
         task_id: *UUID, // 可使用uuid的库来生成
         function: Number, // function index
-        type: *, // 功能点类型
+        type: *, // 功能点类型 ['STRING','BOOLEAN','FLOAT','INTEGER','ENUM','BUFFER']
         value: *, // 功能点值
     }
 }

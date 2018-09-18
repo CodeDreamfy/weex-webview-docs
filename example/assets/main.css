@@ -1,0 +1,18 @@
+
+.mt12{
+  margin-top: 12px;
+}
+.w100 {
+  width: 100%;
+}
+.columns_diy {
+  padding: 0 8px;
+}
+
+.btn-wrap {
+  display: flex; justify-content: space-around;
+  flex-wrap: wrap;
+}
+.btn-wrap > a {
+  margin-top: 8px;
+}

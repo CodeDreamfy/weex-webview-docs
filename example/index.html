@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, max-scale=1">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+  <link rel="stylesheet" href="./assets/bulma.css">
+  <link rel="stylesheet" href="./assets/main.css">
+</head>
+<body>
+  <div class="wrap">
+    <section class="hero is-primary">
+      <div class="hero-body">
+        <div class="container">
+          <h1 class="title">WEEX-WebView Demo</h1>
+          <h2 class="subtitle">
+            主要用于测试webview相关功能测试
+          </h2>
+        </div>
+      </div>
+    </section>
+    <div class="container btn-wrap mt12">
+      <a class="button js_initBtn is-primary">发送初始化请求</a>
+      <a class="button js_str_publish is-primary">下发字符串类型命令</a>
+      <a class="button js_bool_publish is-primary">下发布尔值类型命令</a>
+      <a class="button js_enum_publish is-primary">下发枚举类型命令</a>
+      <a class="button js_number_publish is-primary">下发数字类型命令</a>
+      <a class="button js_buff_publish is-primary">下发透传类型命令</a>
+    </div>
+    <table class="table is-bordered mt12 w100">
+      <tbody>
+        <tr>
+          <td>响应初始化请求</td>
+          <td class="js_initCallHandle"></td>
+        </tr>
+        <tr>
+          <td>命令下发响应</td>
+          <td class="js_commandStatus"></td>
+        </tr>
+        <tr>
+          <td>设备上报状态同步</td>
+          <td class="js_firstStatus"></td>
+        </tr>
+        <tr>
+          <td>MQTT连接状态</td>
+          <td class="js_connecStatus"></td>
+        </tr>
+        <tr>
+          <td>MQTT设备上报数据</td>
+          <td class="js_status"></td>
+        </tr>
+        <tr>
+          <td>设备上下线</td>
+          <td class="js_onlineStatus"></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  <script src="./assets/jquery.js"></script>
+  <script src="./assets/main.js"></script>
+</body>
+</html>

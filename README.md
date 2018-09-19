@@ -54,22 +54,22 @@
 window.addEventListener('message', function(event){
     console.log(event.data) // type: Obejct,  data内部为传递的数据
     switch(event.data.type) {
-      case "initParams":
+      case "initParams": // 接收初始化数据
         // todo:
         break;
-      case "connectStatus":
+      case "connectStatus": // MQTT连接状态
         // todo
         break;
-      case "command_resp":
+      case "command_resp": // 命令响应
         // todo:
         break;
-      case "status":
+      case "status": // 设备状态上报
         // todo
         break;
-      case "connection":
+      case "connection": // 设备上下线
         // todo:
         break;
-      case 'first-status':
+      case 'first-status': // 设备状态同步
         // todo:
         break;
       default:

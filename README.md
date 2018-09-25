@@ -6,6 +6,7 @@
 | -------------------- | ----------------------- | ---------------------- |
 | 2018.8.31 - 2018.9.4 | codedreamfy@outlook.com | WeexWebview SDK制订    |
 | 2018.9.17            | codedreamfy@outlook.com | 增加通信流程，完善文档 |
+| 2018.9.25            | codedreamfy@outlook.com | 修改上报数据格式 |
 
 ### MQTT 与 WebView 通信流程
 
@@ -227,8 +228,24 @@ window.parent.postMessage(command, ${weex_domain}); // command: Object; webview 
 {
     type: 'status',
     data: {
-        function: int, // 可通过function的值去找到对应的模板的类型来确定上报的是什么样的type
-        value: *, // 如果为Array, eg: [1,2] ,代表异常类型功能点第1个和第2个异常
+        function: value, // 可通过function的值去找到对应的模板的类型来确定上报的是什么样的type, value 如果为1，2， eg: 1，2 ,代表异常类型功能点第1个和第2个异常
+        ...
+    }
+}
+```
+
+> 举个栗子
+```javascript
+{
+    type: 'status',
+    data: {
+        1: true, // BOOLEAN
+        2: 12, // INTEGER
+        3: 12.1, // FLOAT
+        3: 1, // ENUM
+        4: 'hello', // STRING
+        5: '0x120xf0', // BUFFER
+        6: '1,2'  // EXCEPTION
     }
 }
 ```
@@ -245,7 +262,7 @@ window.parent.postMessage(command, ${weex_domain}); // command: Object; webview 
 {
     type: 'first-status',
     data: {
-        "function": value, // function的index作为key，值为value
+        function: value, // function的index作为key，值为value， 同状态上报
         ...
     }
 }

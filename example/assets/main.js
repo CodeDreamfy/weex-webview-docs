@@ -3,6 +3,7 @@ $(function() {
 
   // Event
   const $js_initBtn = $(".js_initBtn");
+  const $js_changeTit = $(".js_changeTit");
   const $js_initCallHandle = $(".js_initCallHandle");
   const $js_firstStatus = $(".js_firstStatus");
   const $js_connecStatus = $(".js_connecStatus");
@@ -13,6 +14,11 @@ $(function() {
   $js_initBtn.on("click", function() {
     sendNotify({ type: "initParam" });
     $js_initCallHandle.html("请求已发出，正等待回复");
+  });
+  $js_changeTit.on("click", function() {
+    document.title = JSON.stringify({
+      name: "test title"
+    });
   });
   $(".js_str_publish").on("click", function() {
     sendNotify({
@@ -73,8 +79,8 @@ $(function() {
     let payload = event.data;
     switch (payload.type) {
       case "initParams":
-        $js_initCallHandle.html(JSON.stringify(payload.data));
-        functions = formatFun(payload.embed.functions);
+        $js_initCallHandle.html(JSON.stringify(payload));
+        functions = formatFun(payload.embed.function);
         break;
       case "connectStatus":
         $js_connecStatus.html("连接状态：" + payload.data.status);

@@ -81,18 +81,7 @@ window.addEventListener('message', function(event){
 
 ### 第二步
 
-刚进入页面的时候请下发如下命令以通知`WEEX`做一些初始化的准备工作包括传递页面内需要的参数
-
-```javascript
-window.parent.postMessage({
-    type: 'initParams'
-}, ${weex_domain});
-```
-
-
-### 第三步
-
-当`WEEX`收到初始化请求后会做以下事情：
+当`WEEX`发送初始化参数后会做以下事情：
 
 * 开始初始化连接MQTT，返回连接状态
 

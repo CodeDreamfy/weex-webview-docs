@@ -7,6 +7,7 @@
 | 2018.8.31 - 2018.9.4 | codedreamfy@outlook.com | WeexWebview SDK制订    |
 | 2018.9.17            | codedreamfy@outlook.com | 增加通信流程，完善文档 |
 | 2018.9.25            | codedreamfy@outlook.com | 修改上报数据格式 |
+| 2018.10.10           | codedreamfy@outlook.com | 完善部分内容，增加修改标题栏方法 |
 
 ### MQTT 与 WebView 通信流程
 
@@ -102,6 +103,7 @@ window.parent.postMessage({
 
 > 注意：返回参数这个过程可能是异步的，不会立即返回，因为部分参数是通过接口请求回来的
 
+**所有数据下发和上报均采用的JSON.stringify进行了字符串化**
 
 ---- 
 
@@ -299,13 +301,30 @@ window.parent.postMessage(command, ${weex_domain}); // command: Object; webview 
     data: {
         method: 'toast' | 'alert',
         options: {
-            message: *String, // 如果传递Obejct 将转换成 `Object object`
+            message: String, // 如果传递Obejct 将转换成 `Object object`
             duration: 0.3, // 以秒为单位，默认可以不传递
         }
     }
 }
 ```
 
+### 修改标题栏内容和颜色
+
+`type: 'changeNavigationBar'`
+
+修改顶部导航栏标题内容和背景颜色
+
+```javascript
+{
+   type: 'changeNavigationBar',
+   data: {
+       title: String, // 标题栏文字内容
+       background: String, // 标题栏背景色 暂时只支持十六进制格式 如： #fff
+       dark: 'dark', // 标题栏字体仅有黑白可选，默认为白色，传递后为黑色，可不传递
+       showDivider: Boolean, // 是否显示标题栏底部的分割线
+   }
+}
+```
 
 
 ### Example

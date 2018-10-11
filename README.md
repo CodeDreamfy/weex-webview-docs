@@ -318,10 +318,10 @@ window.parent.postMessage(command, ${weex_domain}); // command: Object; webview 
 {
    type: 'changeNavigationBar',
    data: {
-       title: String, // 标题栏文字内容
-       background: String, // 标题栏背景色 暂时只支持十六进制格式 如： #fff
-       dark: 'dark', // 标题栏字体仅有黑白可选，默认为白色，传递后为黑色，可不传递
-       showDivider: Boolean, // 是否显示标题栏底部的分割线
+       title: String, // 标题栏文字内容, 默认：''，暂不会恢复默认标题
+       background: String, // 标题栏背景色，仅支持十六进制格式， 默认： #ffffff
+       dark: 'dark' || 'light', // 标题栏字体仅有黑白可选，默认：dark
+       showDivider: Boolean, // 是否显示标题栏底部的分割线，默认: true
    }
 }
 ```
@@ -337,7 +337,7 @@ const uuidv1 = require('uuid/v1'); // 普通页面不支持require，请使用�
 
 // 监听weex发送的数据
 window.addEventListener('message', function(event){
-    const payload = event.data; // type: Obejct,  data内部为传递的数据
+    const payload = JSON.parse(event.data); // 默认传递过来是String,  data内部为传递的数据
     switch(payload.type) {
       case "command_resp":
         // todo:

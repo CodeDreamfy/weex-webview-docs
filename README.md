@@ -93,7 +93,7 @@ window.parent.postMessage({
 
 ### 第三步
 
-当`WEEX`收到或发出(web端收到 / app发出 )初始化请求后会做以下事情：
+当`WEEX`监听到页面加载完毕后后会做以下事情：
 
 * 开始初始化连接MQTT，返回连接状态
 
@@ -103,7 +103,7 @@ window.parent.postMessage({
 
 > 注意：返回参数这个过程可能是异步的，不会立即返回，因为部分参数是通过接口请求回来的
 
-**所有数据下发和上报均采用的JSON.stringify进行了字符串化**
+**所有数据下发和上报均采用的`JSON.stringify`进行了字符串化**
 
 ---- 
 
@@ -230,8 +230,9 @@ window.parent.postMessage(command, ${weex_domain}); // command: Object; webview 
 {
     type: 'status',
     data: {
-        function: value, // 可通过function的值去找到对应的模板的类型来确定上报的是什么样的type, value 如果为1，2， eg: 1，2 ,代表异常类型功能点第1个和第2个异常
-        ...
+        function: 1,
+        type: String, // 'BOOLEAN' / 'STRING' / 'INTEGER' / 'FLOAT' / 'BUFFER' / 'EXCEPTION'
+        value: *,
     }
 }
 ```
@@ -241,13 +242,9 @@ window.parent.postMessage(command, ${weex_domain}); // command: Object; webview 
 {
     type: 'status',
     data: {
-        1: true, // BOOLEAN
-        2: 12, // INTEGER
-        3: 12.1, // FLOAT
-        3: 1, // ENUM
-        4: 'hello', // STRING
-        5: '0x120xf0', // BUFFER
-        6: '1,2'  // EXCEPTION
+        function: 1
+        type: "BOOLEAN"
+        value: true
     }
 }
 ```
@@ -258,7 +255,9 @@ window.parent.postMessage(command, ${weex_domain}); // command: Object; webview 
 
 `type: 'first-status'`
 
-服务器上报到**webview**,设备连上MQTT后将进行上报
+服务器上报到**webview**,设备连上MQTT后将进行上报、仅针对真实设备
+
+> 注意：设备首次上报的值均为String，需要自主转换成对应的值，这里建议使用JSON.parse来对值进行转换
 
 ```javascript
 {
@@ -377,9 +376,9 @@ function publish(command) {
     window.parent.postMessage({
         type: 'command',
         data: {
-            task_id: uuidv1().split('-')[0], // 可使用uuid的库来生成
+            task_id: uuidv1().split('-')[0], // 可使用uuid的库来生成，也可以随机字符串
             function: 232, // function index
-            type: 'Boolean', // 功能点类型
+            type: 'BOOLEAN', // 功能点类型
             value: true, // 功能点值
         }
     }, '*')

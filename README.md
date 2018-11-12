@@ -8,6 +8,7 @@
 | 2018.9.17            | codedreamfy@outlook.com | 增加通信流程，完善文档 |
 | 2018.9.25            | codedreamfy@outlook.com | 修改上报数据格式 |
 | 2018.10.10           | codedreamfy@outlook.com | 完善部分内容，增加修改标题栏方法 |
+| 2018.10.15           | codedreamfy@outlook.com | 文档切换到新版mqtt架构，修改部分方法传输格式 |
 
 ### MQTT 与 WebView 通信流程
 
@@ -55,6 +56,7 @@
 ```javascript
 window.addEventListener('message', function(event){
     console.log(event.data) // type: Obejct,  data内部为传递的数据
+    if()
     switch(event.data.type) {
       case "initParams": // 接收初始化数据
         // todo:
@@ -212,8 +214,39 @@ window.parent.postMessage(command, ${weex_domain}); // command: Object; webview 
     type: 'command_resp',
     data: {
         task_id: *UUID, // 下发命令对应的uuid
-        result: *Boolean, // 注：下发到服务器的结果，但不代表设备收到
+        result: {
+            code: CODE, // 命令下发的状态码，具体参数如下
+            message: CODE
+        }
     }
+}
+```
+
+CODE可能包含如下内容
+```javascript
+switch(data.result.code) {
+    case 'OK':
+        msg = '命令下发成功';
+        break;
+    case 'PARAM_ERR':
+        msg = '命令格式有误';
+        break;
+    case 'DEV_RSP_TIMEOUT':
+        msg = '设备响应超时';
+        break;
+    case 'DEV_OFFLINE':
+        msg = '设备不在线';
+        break;
+    case 'FORBIDDEN':
+        msg = '禁止给cleanSession=1的设备下发离线命令或下发qos=0的离线命令';
+    case 'DEV_NOT_FOUND':
+        msg = '设备不在当前Broker上';
+    case 'INTERNAL_ERR':
+        msg = '内部错误，API应重试';
+    case 'SESSION_DESTROYED':
+        msg = 'session被销毁';
+    default: 
+        msg = `内部错误，错误码：${data.result.code}`;
 }
 ```
 
@@ -225,6 +258,7 @@ window.parent.postMessage(command, ${weex_domain}); // command: Object; webview 
 
 **MQTT**上报的传感器数据（目前是单点上报，即每次上传仅上报单个功能点）
 
+> 注意：上报的Boolean值将为字符串布尔值，比如`true`，上报异常类型，当某个function是异常类型的时候，上报上来的值可能类似于：'1,2'，需要用户单独进行处理，
 
 ```javascript
 {
@@ -255,8 +289,7 @@ window.parent.postMessage(command, ${weex_domain}); // command: Object; webview 
 
 `type: 'first-status'`
 
-服务器上报到**webview**,设备连上MQTT后将进行上报、仅针对真实设备
-
+服务器上报到**webview**,设备连上MQTT后绑定`topic`后将进行上报,仅针对真实设备
 > 注意：设备首次上报的值均为String，需要自主转换成对应的值，这里建议使用JSON.parse来对值进行转换
 
 ```javascript

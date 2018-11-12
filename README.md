@@ -264,9 +264,9 @@ switch(data.result.code) {
 {
     type: 'status',
     data: {
-        function: 1,
-        type: String, // 'BOOLEAN' / 'STRING' / 'INTEGER' / 'FLOAT' / 'BUFFER' / 'EXCEPTION'
-        value: *,
+        "functionId": value,
+        "functionId": value,
+        ...
     }
 }
 ```
@@ -276,9 +276,8 @@ switch(data.result.code) {
 {
     type: 'status',
     data: {
-        function: 1
-        type: "BOOLEAN"
-        value: true
+        1: true,
+        2: 12
     }
 }
 ```
